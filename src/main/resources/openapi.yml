@@ -1,0 +1,54 @@
+openapi: '3.0.3'
+info:
+  version: 1.0.0
+  title: Simple Customer Information
+servers:
+  - url: http://localhost/8081/api/v1
+paths:
+  /customer/{codigoUnico}:
+    get:
+      summary: "Retrieve Customer"
+      description: "Returns a customer"
+      operationId: "getCustomerByCode"
+      parameters:
+        - name: codigoUnico
+          in: path
+          description: Código único para identificar al cliente.
+          required: true
+          schema:
+            type: string
+            maxLength: 40
+            pattern: "^[a-zA-Z0-9]{5}$"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        "400":
+          description: Bad Request
+components:
+  schemas:
+    CustomerHeaders:
+      type: object
+    ErrorResponse:
+      type: object
+      properties:
+        errorMessage:
+          type: string
+          example: "String"
+    CustomerResponse:
+      type: object
+      properties:
+        nombre:
+          type: string
+          example: "Carlos Manuel"
+        apellidos:
+          type: string
+          example: "Díaz Pallas"
+        tipoDocumento:
+          type: string
+          example: "DNI"
+        numeroDocumento:
+          type: string
