@@ -1,54 +1,198 @@
-openapi: '3.0.3'
+openapi: 3.0.0
 info:
+  title: Customer Service API
   version: 1.0.0
-  title: Simple Customer Information
 servers:
-  - url: http://localhost/8081/api/v1
+  - url: http://localhost:8080
 paths:
-  /customer/{codigoUnico}:
+  /v1/customers:
     get:
-      summary: "Retrieve Customer"
-      description: "Returns a customer"
-      operationId: "getCustomerByCode"
-      parameters:
-        - name: codigoUnico
-          in: path
-          description: Código único para identificar al cliente.
-          required: true
-          schema:
-            type: string
-            maxLength: 40
-            pattern: "^[a-zA-Z0-9]{5}$"
+      summary: Retrieve all customers
+      operationId: getAllCustomers
       responses:
-        "200":
-          description: OK
+        '200':
+          description: List of customers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      summary: Create a customer
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+      responses:
+        '201':
+          description: Customer created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/CustomerResponse'
-        "400":
-          description: Bad Request
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/customers/{id}:
+    get:
+      summary: Retrieve a customer by ID
+      operationId: getCustomerById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Customer details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '404':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      summary: Update a customer
+      operationId: updateCustomer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+      responses:
+        '200':
+          description: Updated customer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          '404':
+            description: Account not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+          '500':
+            description: Internal server error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      summary: Delete a customer
+      operationId: deleteCustomer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Account deleted
+          '404':
+            description: Account not found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
-    CustomerHeaders:
+    CustomerRequest:
       type: object
+      required:
+        - name
+        - type
+        - documentId
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum: [ PERSONAL, BUSINESS ]
+        documentId:
+          type: string
+        phoneNumber:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
+    CustomerResponse:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum: [PERSONAL, BUSINESS]
+        documentId:
+          type: string
+        phoneNumber:
+          type: string
+        email:
+          type: string
+        address:
+          type: string
     ErrorResponse:
       type: object
       properties:
-        errorMessage:
+        error:
           type: string
-          example: "String"
-    CustomerResponse:
-      type: object
-      properties:
-        nombre:
+        message:
           type: string
-          example: "Carlos Manuel"
-        apellidos:
-          type: string
-          example: "Díaz Pallas"
-        tipoDocumento:
-          type: string
-          example: "DNI"
-        numeroDocumento:
-          type: string
+

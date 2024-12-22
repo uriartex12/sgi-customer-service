@@ -1,4 +1,4 @@
-package com.sgi.sgi_customer_back;
+package com.sgi.customer_back;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

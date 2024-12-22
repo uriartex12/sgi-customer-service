@@ -1,6 +1,13 @@
-server:
-  port: 8098
-
+app:
+  name: @project.artifactId@
+  version: @project.version@
+  description: @project.description@
 spring:
   application:
     name: sgi-customer_back
+  cloud:
+    config:
+      name: sgi-customer_back
+      profile: ${PROFILE:dev}
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URI}
