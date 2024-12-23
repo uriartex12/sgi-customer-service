@@ -1,4 +1,4 @@
-package com.sgi.customer_back.application.services;
+package com.sgi.customer_back.application.service;
 
 import com.sgi.customer_back.domain.ports.in.CustomerService;
 import com.sgi.customer_back.domain.ports.out.CustomerRepository;

@@ -3,7 +3,6 @@ package com.sgi.customer_back.infrastructure.controller;
 import com.sgi.customer_back.domain.ports.in.CustomerService;
 import com.sgi.customer_back.infrastructure.dto.CustomerRequest;
 import com.sgi.customer_back.infrastructure.dto.CustomerResponse;
-import lombok.extern.log4j.Log4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
@@ -11,7 +10,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@Log4j
 public class CustomerController implements V1Api {
 
     private final CustomerService customerService;
