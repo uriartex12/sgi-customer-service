@@ -8,6 +8,7 @@ import com.sgi.customer.infrastructure.dto.CustomerRequest;
 import com.sgi.customer.infrastructure.dto.CustomerResponse;
 import com.sgi.customer.infrastructure.exception.CustomException;
 import com.sgi.customer.infrastructure.mapper.CustomerMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -18,13 +19,10 @@ import reactor.core.publisher.Mono;
  * Interacts with the repository to persist customer information.
  */
 @Service
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
-
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
 
     @Override
     public Mono<CustomerResponse> createCustomer(Mono<CustomerRequest> customer) {

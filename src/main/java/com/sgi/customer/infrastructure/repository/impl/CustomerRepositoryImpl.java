@@ -24,7 +24,6 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     private final CustomerRepositoryJpa repositoryJpa;
 
-
     @Override
     public Mono<CustomerResponse> save(Customer customer) {
         return repositoryJpa.save(customer)
