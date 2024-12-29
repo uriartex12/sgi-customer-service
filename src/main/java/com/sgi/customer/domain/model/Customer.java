@@ -26,6 +26,7 @@ public class Customer {
     private String id;
     private String name;
     private String type;
+    private String profile;
     private String documentId;
     private String email;
     private String phoneNumber;

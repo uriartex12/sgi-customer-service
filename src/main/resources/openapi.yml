@@ -159,6 +159,9 @@ components:
         type:
           type: string
           enum: [ PERSONAL, BUSINESS ]
+        profile:
+          type: string
+          enum: [ VIP, PYME ]
         documentId:
           type: string
         phoneNumber:
@@ -180,6 +183,9 @@ components:
         type:
           type: string
           enum: [PERSONAL, BUSINESS]
+        profile:
+          type: string
+          enum: [ VIP, PYME ]
         documentId:
           type: string
         phoneNumber:
