@@ -52,12 +52,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-  /v1/customers/{id}:
+  /v1/customers/{customerId}:
     get:
       summary: Retrieve a customer by ID
       operationId: getCustomerById
       parameters:
-        - name: id
+        - name: customerId
           in: path
           required: true
           schema:
@@ -85,7 +85,7 @@ paths:
       summary: Update a customer
       operationId: updateCustomer
       parameters:
-        - name: id
+        - name: customerId
           in: path
           required: true
           schema:
@@ -125,7 +125,7 @@ paths:
       summary: Delete a customer
       operationId: deleteCustomer
       parameters:
-        - name: id
+        - name: customerId
           in: path
           required: true
           schema:

@@ -34,8 +34,8 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Mono<Void> deleteCustomer(String id) {
         return customerRepository.findById(id)
-                .flatMap(customerRepository::delete)
-                .switchIfEmpty(Mono.error(new CustomException(CustomError.E_CUSTOMER_NOT_FOUND)));
+                .switchIfEmpty(Mono.error(new CustomException(CustomError.E_CUSTOMER_NOT_FOUND)))
+                .flatMap(customerRepository::delete);
     }
 
     @Override
