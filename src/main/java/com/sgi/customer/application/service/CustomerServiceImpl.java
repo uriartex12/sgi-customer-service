@@ -26,8 +26,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Mono<CustomerResponse> createCustomer(Mono<CustomerRequest> customer) {
-        return customer.flatMap(cust ->
-                CustomerMapper.INSTANCE.map(Mono.just(cust))
+        return customer.flatMap(customerRequest ->
+                CustomerMapper.INSTANCE.map(Mono.just(customerRequest))
                         .flatMap(customerRepository::save));
     }
 
@@ -50,13 +50,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Mono<CustomerResponse> updateCustomer(String id, Mono<CustomerRequest> customer) {
+    public Mono<CustomerResponse> updateCustomer(String id, Mono<CustomerRequest> customerRequestMono) {
         return customerRepository.findById(id)
                 .switchIfEmpty(Mono.error(new CustomException(CustomError.E_CUSTOMER_NOT_FOUND)))
-                .flatMap(customerEntity ->
-                        customer.map(updatedCustomer -> {
-                            Customer updatedEntity = CustomerMapper.INSTANCE.toCustomer(updatedCustomer, customerEntity.getId());
-                            updatedEntity.setId(customerEntity.getId());
+                .flatMap(customer ->
+                        customerRequestMono.map(updatedCustomer -> {
+                            Customer updatedEntity = CustomerMapper.INSTANCE.toCustomer(updatedCustomer, customer.getId());
+                            updatedEntity.setId(customer.getId());
                             return updatedEntity;
                         })
                 )
