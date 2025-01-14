@@ -21,7 +21,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "customer")
 @AllArgsConstructor
 @NoArgsConstructor
-@CompoundIndex(def = "{'id': 1, 'documentId': 1}", name = "id_document_index", unique = true)
+@CompoundIndex(def = "{'id': 1, 'documentId': 1, 'name': 1}", name = "id_document_documentId_name_index", unique = true)
 public class Customer {
 
     @Id

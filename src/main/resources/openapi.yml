@@ -145,6 +145,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+  /v1/customers/{customerId}/summary:
+    get:
+      summary: List product summary by customerId
+      operationId: getCustomerSummary
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Report details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SummaryResponse'
+        '404':
+          description: Customer not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 components:
   schemas:
     CustomerRequest:
@@ -170,6 +200,26 @@ components:
           type: string
         address:
           type: string
+    SummaryResponse:
+      type: object
+      required:
+        - customerId
+        - name
+        - product
+      properties:
+        customerId:
+          type: string
+        name:
+          type: string
+        product:
+          type: object
+          properties:
+            accounts:
+              type: array
+            cards:
+              type: array
+            credits:
+              type: array
     CustomerResponse:
       type: object
       required:
@@ -193,6 +243,84 @@ components:
         email:
           type: string
         address:
+          type: string
+    CreditResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        creditNumber:
+          type: string
+        type:
+          type: string
+          enum: [ PERSONAL, BUSINESS ]
+        creditLimit:
+          type: decimal
+        consumptionAmount:
+          type: decimal
+        balance:
+          type: decimal
+        interestRate:
+          type: decimal
+        clientId:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+    AccountResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum: [ savings, checking, fixed term ]
+        balance:
+          type: object
+        accountNumber:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        movementLimit:
+          type: integer
+        maintenanceFee:
+          type: number
+        commissionFee:
+          type: number
+        clientId:
+          type: string
+        transactionDay:
+          type: string
+          format: date
+        holders:
+          type: array
+          items:
+            type: string
+    CardResponse:
+      type: object
+      required:
+        - cardNumber
+        - expirationDate
+        - mainAccountId
+      properties:
+        id:
+          type: string
+        cardNumber:
+          type: string
+        expirationDate:
+          type: string
+          format: date-time
+        type:
+          type: string
+          enum: [ DEBIT , CREDIT ]
+        mainAccountId:
+          type: string
+        associatedAccountIds:
+          type: array
+          items:
+            type: string
+        clientId:
           type: string
     ErrorResponse:
       type: object

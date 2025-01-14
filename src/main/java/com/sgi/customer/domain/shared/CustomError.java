@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 public enum CustomError {
 
     E_CUSTOMER_NOT_FOUND(new ApiError(HttpStatus.NOT_FOUND, "CUSTOMER-001", "Customer not found")),
+    E_OPERATION_FAILED(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, "CUSTOMER-000", "Operation failed")),
     E_MALFORMED_ACCOUNT_DATA(new ApiError(HttpStatus.BAD_REQUEST, "CUSTOMER-002", "Malformed account data"));
 
     private final ApiError error;

@@ -3,6 +3,7 @@ package com.sgi.customer.infrastructure.controller;
 import com.sgi.customer.domain.ports.in.CustomerService;
 import com.sgi.customer.infrastructure.dto.CustomerRequest;
 import com.sgi.customer.infrastructure.dto.CustomerResponse;
+import com.sgi.customer.infrastructure.dto.SummaryResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,6 +44,12 @@ public class CustomerController implements V1Api {
     @Override
     public Mono<ResponseEntity<CustomerResponse>> getCustomerById(String id, ServerWebExchange exchange) {
         return customerService.getCustomerById(id)
+                .map(customerResponse -> ResponseEntity.ok().body(customerResponse));
+    }
+
+    @Override
+    public Mono<ResponseEntity<SummaryResponse>> getCustomerSummary(String customerId, ServerWebExchange exchange) {
+        return customerService.getCustomerSummary(customerId)
                 .map(customerResponse -> ResponseEntity.ok().body(customerResponse));
     }
 
